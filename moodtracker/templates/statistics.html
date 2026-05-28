@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center mb-4">Статистика настроения</h1>
+
+{% if graph %}
+<div class="text-center mb-5">
+    <img src="data:image/png;base64,{{ graph }}" class="img-fluid rounded shadow-sm">
+</div>
+{% else %}
+<p class="text-center">Пока нет данных. Добавьте первую запись!</p>
+{% endif %}
+
+<div class="card p-3 shadow-sm">
+    <h5>Последние записи</h5>
+    <ul class="list-group">
+        {% for stat in stats|slice:":10" %}
+        <li class="list-group-item">{{ stat.date }} → Позитив: {{ stat.positive_count }}, Негатив: {{ stat.negative_count }}, Нейтрально: {{ stat.neutral_count }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="text-center mt-4">
+    <a href="{% url 'index' %}" class="btn btn-outline-secondary">Новая запись</a>
+</div>
+{% endblock %}
